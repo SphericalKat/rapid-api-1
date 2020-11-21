@@ -1,4 +1,5 @@
 from rest_framework import viewsets, permissions
+from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly
 from rest_framework.exceptions import PermissionDenied
 
 from .serializers import ItemSerializer, OrderSerializer
@@ -9,10 +10,11 @@ class IsOwner(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         return obj.owner == request.user
 
-class ItemViewSet(viewsets.ModelViewSet):
-    queryset = OrderItem.objects.all().order_by('name')
-    serializer_class = ItemSerializer
 
+class ItemViewSet(viewsets.ModelViewSet):
+    serializer_class = ItemSerializer
+    permission_classes = (DjangoModelPermissionsOrAnonReadOnly,)
+    queryset = OrderItem.objects.all().order_by('name')
     
 
 class OrderViewSet(viewsets.ModelViewSet):
