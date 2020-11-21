@@ -1,5 +1,12 @@
+"""
+App config
+"""
 from django.apps import AppConfig
 
 
 class JwtauthConfig(AppConfig):
-    name = 'jwtauth'
+    """
+    App config for the Jwtauth app
+    """
+    
+    name = "jwtauth"
