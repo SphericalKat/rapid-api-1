@@ -1,10 +1,22 @@
+import uuid
+
 from django.db import models
+from django.contrib.auth.models import User
 
 
-class Note(models.Model):
-    title = models.CharField(max_length=50)
-    body = models.TextField()
-    is_favorite = models.BooleanField(default=False)
+class OrderItem(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=50)
+    price = models.IntegerField()
 
     def __str__(self):
-        return self.title
+        return self.name
+
+class Order(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    items = models.ManyToManyField(OrderItem)
+    status = models.CharField(max_length=10, default='p', choices=(('p', 'pending'), ('c', 'complete')))
+
+    def __str__(self):
+        return str(self.owner.get_username())

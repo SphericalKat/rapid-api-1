@@ -1,9 +1,14 @@
 from rest_framework import serializers
 
-from .models import Note
+from .models import OrderItem, Order
 
 
-class NoteSerializer(serializers.ModelSerializer):
+class ItemSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Note
+        model = OrderItem
         fields = "__all__"
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        exclude = ['owner']
